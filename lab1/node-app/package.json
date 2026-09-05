@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev-basic": "nodemon app-basic.js",
+    "dev-medium": "nodemon app-medium.js",
+    "dev-advanced": "nodemon app-advanced.js",
+    "dev-example": "nodemon app-example.js"
   },
   "keywords": [],
   "author": "Лещинский П.А.",
