@@ -33,8 +33,13 @@ Express – минималистичный фреймворк для Node.js, у
 
 ### Команды для запуска
 ```bash
-cd lab1/node-app
-npm run dev-example
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-basic": "nodemon app-basic.js",
+    "dev-medium": "nodemon app-medium.js",
+    "dev-advanced": "nodemon app-advanced.js",
+    "dev-example": "nodemon app-example.js"
+  }
 ```
 
 ### Скриншоты
