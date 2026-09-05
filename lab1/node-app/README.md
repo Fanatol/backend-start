@@ -29,7 +29,7 @@ Express – минималистичный фреймворк для Node.js, у
 ## Выполнение практического примера
 
 Код примера находится в файле:  
-[`lab1/node-app/app-example.js`](./node-app/app-example.js)
+[`app-example.js`](./app-example.js)
 
 ### Команды для запуска
 ```bash
@@ -57,7 +57,7 @@ Express – минималистичный фреймворк для Node.js, у
 ### Базовый уровень
 
 Код базового уровня:  
-[`lab1/node-app/app-basic.js`](./node-app/app-basic.js)
+[`app-basic.js`](./app-basic.js)
 
 **Эндпоинты:**
 - `GET /` – текстовый ответ
@@ -72,7 +72,7 @@ Express – минималистичный фреймворк для Node.js, у
 ### Средний уровень
 
 Код среднего уровня:  
-[`lab1/node-app/app-medium.js`](./node-app/app-medium.js)
+[`app-medium.js`](./app-medium.js)
 
 **Эндпоинты:**
 - `GET /` – текстовый ответ
@@ -90,7 +90,7 @@ Express – минималистичный фреймворк для Node.js, у
 ### Продвинутый уровень
 
 Код продвинутого уровня:  
-[`lab1/node-app/app-advanced.js`](./node-app/app-advanced.js)
+[`app-advanced.js`](./app-advanced.js)
 
 **Эндпоинты:**
 - `GET /` – текстовый ответ
