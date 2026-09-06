@@ -3,7 +3,7 @@ import time
 
 app = Flask(__name__)
 
-# Консольное логирование запроса
+# Консольное логирование каждого запроса
 @app.before_request
 def log_request():
     print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {request.method} {request.path}")
@@ -35,4 +35,3 @@ def not_found(error):
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-    
