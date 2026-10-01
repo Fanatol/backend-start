@@ -1,8 +1,9 @@
+// ============ 1. ПОДКЛЮЧЕНИЕ МОДУЛЕЙ И ИНИЦИАЛИЗАЦИЯ ============
 const express = require("express");
 const app = express();
 const port = 3000;
 
-// ==================== ДАННЫЕ ====================
+// ============ 2. ДАННЫЕ ============
 const users = [
   {
     id: 1,
@@ -104,23 +105,28 @@ const comments = [
   { id: 8, postId: 8, userId: 2, text: "Пригодилось" },
 ];
 
-// ================= ФУНКЦИИ =========
+// ============ 3. ФУНКЦИИ ============
+// 3.1 parsePositiveInt
 function parsePositiveInt(value) {
   const id = Number(value);
   if (!Number.isInteger(id) || id <= 0) return null;
   return id;
 }
 
-// ==================== ЛОГИРОВАНИЕ И JSON ====================
+// ============ 4. ГЛОБАЛЬНЫЕ MIDDLEWARE ============
+// 4.1 Логирование запросов
 app.use((req, res, next) => {
   const logString = `[${new Date().toISOString()}]: ${req.method} ${req.url} ${req.ip}`;
   console.log(logString);
   next();
 });
 
+// 4.2 Парсинг JSON
 app.use(express.json());
 
-// ==================== БАЗОВЫЙ УРОВЕНЬ ====================
+// ============ 5. МАРШРУТЫ: /users ============
+
+// 5.1 GET /users (search, filter, sort, pagination)
 app.get("/users", (req, res) => {
   let usersResult = [...users];
 
@@ -209,7 +215,7 @@ app.get("/users", (req, res) => {
   const skip = (page - 1) * limit;
   usersResult = usersResult.slice(skip, skip + limit);
 
-  res.json({
+  return res.json({
     count: total,
     page: page,
     limit: limit,
@@ -218,6 +224,37 @@ app.get("/users", (req, res) => {
   });
 });
 
+// 5.2 GET /users/stats
+app.get("/users/stats", (req, res) => {
+  let count = 0;
+  let totalAge = 0;
+  let minAge = Infinity;
+  let maxAge = -Infinity;
+  for (let i = 0; i < users.length; i++) {
+    const userAge = parsePositiveInt(users[i].age);
+    if (userAge !== null) {
+      count++;
+      totalAge += userAge;
+      if (minAge > userAge) minAge = userAge;
+      if (maxAge < userAge) maxAge = userAge;
+    }
+  }
+
+  if (count === 0)
+    return res
+      .status(200)
+      .json({ count: 0, averageAge: null, minAge: null, maxAge: null });
+
+  const averageAge = Math.round((totalAge / count) * 10) / 10;
+  return res.status(200).json({
+    count: count,
+    averageAge: averageAge,
+    minAge: minAge,
+    maxAge: maxAge,
+  });
+});
+
+// 5.3 GET /users/:id
 app.get("/users/:id", (req, res) => {
   const userId = parsePositiveInt(req.params.id);
   if (userId === null)
@@ -229,6 +266,7 @@ app.get("/users/:id", (req, res) => {
   return res.status(200).json(user);
 });
 
+// 5.4 GET /users/:id/posts
 app.get("/users/:id/posts", (req, res) => {
   const userId = parsePositiveInt(req.params.id);
   if (userId === null)
@@ -240,6 +278,51 @@ app.get("/users/:id/posts", (req, res) => {
   return res.status(200).json({ count: userPosts.length, posts: userPosts });
 });
 
+// 5.5 GET /users/:userId/posts/:postId/comments/:commentId
+app.get("/users/:userId/posts/:postId/comments/:commentId", (req, res) => {
+  const userId = parsePositiveInt(req.params.userId);
+  const postId = parsePositiveInt(req.params.postId);
+  const commentId = parsePositiveInt(req.params.commentId);
+
+  if (userId === null)
+    return res
+      .status(400)
+      .json({ error: "id пользователя должен быть натуральным числом" });
+  if (postId === null)
+    return res
+      .status(400)
+      .json({ error: "id поста должен быть натуральным числом" });
+  if (commentId === null)
+    return res
+      .status(400)
+      .json({ error: "id комментария должен быть натуральным числом" });
+
+  const user = users.find((el) => el.id === userId);
+  const post = posts.find((el) => el.id === postId);
+  const comment = comments.find((el) => el.id === commentId);
+
+  if (!user) return res.status(404).json({ error: "Пользователь не найден" });
+  if (!post) return res.status(404).json({ error: "Пост не найден" });
+  if (!comment) return res.status(404).json({ error: "Комментарий не найден" });
+
+  if (post.userId !== userId)
+    return res
+      .status(404)
+      .json({ error: "Данному пользователю не принадлежит этот пост" });
+
+  if (comment.postId !== postId)
+    return res
+      .status(404)
+      .json({ error: "Под данным постом нет такого комментария" });
+
+  return res
+    .status(200)
+    .json({ user: user.name, post: post.title, comment: comment.text });
+});
+
+// ============ 6. МАРШРУТЫ: /cities ============
+
+// 6.1 GET /cities/:city/users
 app.get("/cities/:city/users", (req, res) => {
   const cityName = req.params.city;
   const city = cities.find(
@@ -257,12 +340,64 @@ app.get("/cities/:city/users", (req, res) => {
   });
 });
 
-// ================ ОБРАБОТЧИК 404 ================
+// 6.2 GET /cities/:city/users/:userId
+app.get("/cities/:city/users/:userId", (req, res) => {
+  const cityName = req.params.city;
+  const userId = parsePositiveInt(req.params.userId);
+  if (userId === null)
+    return res.status(400).json({ error: "ID должен быть натуральным числом" });
+
+  const city = cities.find(
+    (el) => el.name.toLowerCase() === cityName.toLowerCase(),
+  );
+  if (!city) return res.status(404).json({ error: "Город не найден" });
+  const cityResidents = users.filter(
+    (el) => el.city.toLowerCase() === cityName.toLowerCase(),
+  );
+  const cityUsersById = cityResidents.find((el) => el.id === userId);
+  if (!cityUsersById)
+    return res.status(404).json({ error: "Пользователь не найден" });
+
+  return res.status(200).json({
+    city: city.name,
+    user: cityUsersById,
+  });
+});
+
+// ============ 7. МАРШРУТЫ: /companies ============
+
+// 7.1 GET /companies/:id/users
+app.get("/companies/:id/users", (req, res) => {
+  const companyId = parsePositiveInt(req.params.id);
+  if (companyId === null)
+    return res
+      .status(400)
+      .json({ error: "ID должен быть положительным числом" });
+
+  const company = companies.find((el) => el.id === companyId);
+  if (!company) return res.status(404).json({ error: "Компания не найдена" });
+  const companyUsers = users.filter((el) => el.companyId === companyId);
+  res.status(200).json({
+    company: company.name,
+    count: companyUsers.length,
+    users: companyUsers,
+  });
+});
+
+// ============ 8. ОБРАБОТКА ОШИБОК ============
+
+// 8.1 404
 app.use((req, res) => {
   return res.status(404).json({ error: "Страница не найдена" });
 });
 
-// ==================== ЗАПУСК ====================
+// 8.2 500
+app.use((err, req, res, next) => {
+  console.error("Ошибка сервера:", err.message);
+  res.status(500).json({ error: "Внутренняя ошибка сервера" });
+});
+
+// ============ 9. ЗАПУСК СЕРВЕРА ============
 app.listen(port, () => {
   console.log(`Сервер запущен на http://localhost:${port}`);
 });

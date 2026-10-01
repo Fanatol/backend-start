@@ -1,0 +1,81 @@
+@baseUrl = http://localhost:3000
+
+### ==================== USERS ====================
+
+### 1. GET All Users — список всех пользователей
+GET {{baseUrl}}/users
+
+### 2. GET User by ID — пользователь по id
+GET {{baseUrl}}/users/1
+
+### 3. GET User Posts — посты пользователя
+GET {{baseUrl}}/users/1/posts
+
+### 4. GET User Post Comment — вложенный маршрут (пользователь → пост → комментарий)
+GET {{baseUrl}}/users/1/posts/1/comments/1
+
+### 5. GET Search User — поиск по имени
+GET {{baseUrl}}/users?search=Андрей
+
+### 6. GET Filter by City — фильтрация по городу
+GET {{baseUrl}}/users?filter=city:Москва
+
+### 7. GET Filter by Age — фильтрация по возрасту
+GET {{baseUrl}}/users?filter=age:25
+
+### 8. GET Sort by Age Desc — сортировка по возрасту
+GET {{baseUrl}}/users?sort=age&order=desc
+
+### 9. GET Sort by Name Asc — сортировка по имени
+GET {{baseUrl}}/users?sort=name&order=asc
+
+### 10. GET Pagination — пагинация
+GET {{baseUrl}}/users?page=2&limit=3
+
+### 11. GET All Combined — всё вместе
+GET {{baseUrl}}/users?search=а&filter=city:Москва&sort=age&order=desc&page=1&limit=2
+
+### 12. GET Stats — статистика по возрасту
+GET {{baseUrl}}/users/stats
+
+### ==================== CITIES ====================
+
+### 13. GET City Users — пользователи города
+GET {{baseUrl}}/cities/Москва/users
+
+### 14. GET City User by ID — пользователь в конкретном городе
+GET {{baseUrl}}/cities/Москва/users/1
+
+### ==================== COMPANIES ====================
+
+### 15. GET Company Users — пользователи компании
+GET {{baseUrl}}/companies/1/users
+
+### ==================== ERRORS ====================
+
+### 16. GET Invalid ID (400)
+GET {{baseUrl}}/users/abc
+
+### 17. GET Nonexistent User (404)
+GET {{baseUrl}}/users/999
+
+### 18. GET Nonexistent City (404)
+GET {{baseUrl}}/cities/Тверь/users
+
+### 19. GET Nonexistent Company (404)
+GET {{baseUrl}}/companies/999/users
+
+### 20. GET Wrong Association (City) — пользователь не в этом городе (404)
+GET {{baseUrl}}/cities/Москва/users/3
+
+### 21. GET Wrong Association (Comment) — комментарий не под этим постом (404)
+GET {{baseUrl}}/users/1/posts/1/comments/3
+
+### 22. GET Invalid Filter (400)
+GET {{baseUrl}}/users?filter=email:test
+
+### 23. GET Invalid Sort (400)
+GET {{baseUrl}}/users?sort=email
+
+### 24. GET Invalid Limit (400)
+GET {{baseUrl}}/users?limit=200
