@@ -105,7 +105,7 @@ const comments = [
 ];
 
 // ================= ФУНКЦИИ =========
-function parseId(value) {
+function parsePositiveInt(value) {
   const id = Number(value);
   if (!Number.isInteger(id) || id <= 0) return null;
   return id;
@@ -122,14 +122,107 @@ app.use(express.json());
 
 // ==================== БАЗОВЫЙ УРОВЕНЬ ====================
 app.get("/users", (req, res) => {
-  res.json({ count: users.length, users: users });
+  let usersResult = [...users];
+
+  const search = req.query.search;
+  if (search) {
+    usersResult = usersResult.filter((el) =>
+      el.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }
+
+  const filter = req.query.filter;
+  if (filter) {
+    const parts = filter.split(":");
+    if (parts.length !== 2)
+      return res
+        .status(400)
+        .json({ error: "Неправильные параметры фильтрации" });
+    const [field, value] = parts;
+    if (!field || !value || value.trim() === "")
+      return res
+        .status(400)
+        .json({ error: "Одно из значений фильтрации пустое" });
+
+    if (field === "city") {
+      usersResult = usersResult.filter(
+        (el) => el.city.toLowerCase() === value.toLowerCase(),
+      );
+    } else if (field === "age") {
+      const filterAge = parsePositiveInt(value);
+      if (filterAge !== null) {
+        usersResult = usersResult.filter((el) => el.age === filterAge);
+      } else {
+        return res.status(400).json({
+          error: "Фильтрация по age должна принимать натуральное число",
+        });
+      }
+    } else {
+      return res
+        .status(400)
+        .json({ error: "Доступна фильтрация по city и age" });
+    }
+  }
+
+  const sort = req.query.sort;
+  const startOrder = req.query.order;
+  const order = startOrder || "asc";
+  if (sort) {
+    const tagsSort = ["id", "name", "age"];
+    const tagsOrder = ["asc", "desc"];
+    if (!tagsSort.includes(sort))
+      return res
+        .status(400)
+        .json({ error: "Нет сортировки по такому параметру" });
+    if (!tagsOrder.includes(order))
+      return res.status(400).json({ error: "Нет такого типа сортировки" });
+
+    if (sort === "name") {
+      if (order === "asc")
+        usersResult.sort((a, b) => a.name.localeCompare(b.name, "ru"));
+      else usersResult.sort((a, b) => b.name.localeCompare(a.name, "ru"));
+    } else if (sort === "age") {
+      if (order === "asc") usersResult.sort((a, b) => a.age - b.age);
+      else usersResult.sort((a, b) => b.age - a.age);
+    } else if (sort === "id") {
+      if (order === "asc") usersResult.sort((a, b) => a.id - b.id);
+      else usersResult.sort((a, b) => b.id - a.id);
+    }
+  }
+
+  const startPage = req.query.page;
+  const startLimit = req.query.limit;
+
+  const page = parsePositiveInt(startPage || 1);
+  if (page === null)
+    return res
+      .status(400)
+      .json({ error: "page должен быть натуральным числом" });
+
+  const limit = parsePositiveInt(startLimit || 10);
+  if (limit === null || limit > 100)
+    return res
+      .status(400)
+      .json({ error: "limit должен быть натуральным числом от 1 до 100" });
+
+  const total = usersResult.length;
+  const skip = (page - 1) * limit;
+  usersResult = usersResult.slice(skip, skip + limit);
+
+  res.json({
+    count: total,
+    page: page,
+    limit: limit,
+    totalPages: Math.ceil(total / limit),
+    users: usersResult,
+  });
 });
 
 app.get("/users/:id", (req, res) => {
-  const userId = parseId(req.params.id);
+  const userId = parsePositiveInt(req.params.id);
   if (userId === null)
     return res.status(400).json({ error: "id должен быть натуральным числом" });
-  
+
   const user = users.find((el) => el.id === userId);
   if (!user) return res.status(404).json({ error: "Пользователь не найден" });
 
@@ -137,7 +230,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.get("/users/:id/posts", (req, res) => {
-  const userId = parseId(req.params.id);
+  const userId = parsePositiveInt(req.params.id);
   if (userId === null)
     return res.status(400).json({ error: "id должен быть натуральным числом" });
   const user = users.find((el) => el.id === userId);
