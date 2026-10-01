@@ -15,9 +15,9 @@
 
 ## Теоретическое обоснование
 
-**Маршрутизация** — механизм сопоставления HTTP-запроса (метод + URL) с кодом-обработчиком на сервере. В Express маршрут описывается как `app.METHOD(PATH, HANDLER)`, где `METHOD` — HTTP-метод, `PATH` — путь URL (может содержать параметры), `HANDLER` — функция-обработчик.
+**Маршрутизация** – механизм сопоставления HTTP-запроса (метод + URL) с кодом-обработчиком на сервере. В Express маршрут описывается как `app.METHOD(PATH, HANDLER)`, где `METHOD` – HTTP-метод, `PATH` – путь URL (может содержать параметры), `HANDLER` – функция-обработчик.
 
-**Три источника данных в запросе:** параметры пути (`req.params`) — часть URL вида `/users/42`; query-параметры (`req.query`) — пары «ключ=значение» после `?`; тело запроса (`req.body`) — данные POST/PUT/PATCH. Параметры пути и query-параметры всегда приходят строками, поэтому требуется приведение типов и валидация.
+**Три источника данных в запросе:** параметры пути (`req.params`) – часть URL вида `/users/42`; query-параметры (`req.query`) – пары «ключ=значение» после `?`; тело запроса (`req.body`) – данные POST/PUT/PATCH. Параметры пути и query-параметры всегда приходят строками, поэтому требуется приведение типов и валидация.
 
 **Вложенные маршруты** отражают иерархию ресурсов: один ресурс принадлежит другому. Например, `GET /users/:userId/posts/:postId/comments/:commentId` возвращает комментарий, принадлежащий конкретному посту конкретного пользователя. При этом важна **каскадная валидация**: проверка существования и связей всех сущностей по цепочке.
 
@@ -80,7 +80,7 @@ lab3/
 ## Скриншоты работы
 
 <details>
-<summary><b>lab3-1. GET /users — список всех пользователей</b></summary>
+<summary><b>lab3-1. GET /users – список всех пользователей</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users`
 
@@ -91,7 +91,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-2. GET /users/1 — один пользователь по id</b></summary>
+<summary><b>lab3-2. GET /users/1 – один пользователь по id</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/1`
 
@@ -102,7 +102,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-3. GET /users/1/posts — посты пользователя</b></summary>
+<summary><b>lab3-3. GET /users/1/posts – посты пользователя</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/1/posts`
 
@@ -113,7 +113,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-4. GET /users/1/posts/1/comments/1 — множественные параметры пути</b></summary>
+<summary><b>lab3-4. GET /users/1/posts/1/comments/1 – множественные параметры пути</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/1/posts/1/comments/1`
 
@@ -124,7 +124,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-5. GET /users?search=Андрей — поиск по имени</b></summary>
+<summary><b>lab3-5. GET /users?search=Андрей – поиск по имени</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users?search=Андрей`
 
@@ -135,7 +135,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-6. GET /users?filter=city:Москва — фильтрация по городу</b></summary>
+<summary><b>lab3-6. GET /users?filter=city:Москва – фильтрация по городу</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users?filter=city:Москва`
 
@@ -146,7 +146,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-7. GET /users?sort=age&order=desc — сортировка по возрасту (убывание)</b></summary>
+<summary><b>lab3-7. GET /users?sort=age&order=desc – сортировка по возрасту (убывание)</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users?sort=age&order=desc`
 
@@ -157,7 +157,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-8. GET /users?page=2&limit=3 — пагинация</b></summary>
+<summary><b>lab3-8. GET /users?page=2&limit=3 – пагинация</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users?page=2&limit=3`
 
@@ -168,7 +168,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-9. GET /users/stats — статистика по возрасту</b></summary>
+<summary><b>lab3-9. GET /users/stats – статистика по возрасту</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/stats`
 
@@ -179,7 +179,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-10. GET /cities/Москва/users — пользователи города (категория)</b></summary>
+<summary><b>lab3-10. GET /cities/Москва/users – пользователи города (категория)</b></summary>
 
 **Запрос:** `GET http://localhost:3000/cities/Москва/users`
 
@@ -190,7 +190,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-11. GET /companies/1/users — пользователи компании</b></summary>
+<summary><b>lab3-11. GET /companies/1/users – пользователи компании</b></summary>
 
 **Запрос:** `GET http://localhost:3000/companies/1/users`
 
@@ -201,7 +201,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-12. GET /users/abc — 400 Bad Request (невалидный id)</b></summary>
+<summary><b>lab3-12. GET /users/abc – 400 Bad Request (невалидный id)</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/abc`
 
@@ -212,7 +212,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-13. GET /users/999 — 404 Not Found</b></summary>
+<summary><b>lab3-13. GET /users/999 – 404 Not Found</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/999`
 
@@ -223,7 +223,7 @@ lab3/
 </details>
 
 <details>
-<summary><b>lab3-14. GET /users/1/posts/1/comments/3 — 404 (комментарий не под этим постом)</b></summary>
+<summary><b>lab3-14. GET /users/1/posts/1/comments/3 – 404 (комментарий не под этим постом)</b></summary>
 
 **Запрос:** `GET http://localhost:3000/users/1/posts/1/comments/3`
 
@@ -238,116 +238,164 @@ lab3/
 <details>
 <summary><b>Базовый уровень (1–10)</b></summary>
 
-**1. Что такое маршрутизация? Как в Express/Flask?**
-Сопоставление URL+метода с обработчиком. Express: `app.METHOD(PATH, HANDLER)`. Flask: `@app.route(...)`.
+**1. Что такое маршрутизация? Как она работает в Express/Flask?**
 
-**2. Чем отличаются `req.params`, `req.query`, `req.body`?**
-`params` — из пути `/users/42`. `query` — после `?` (`?age=20`). `body` — тело POST/PUT. Params и query — всегда строки.
+Маршрутизация — это сопоставление запроса (метода и URL) с функцией, которая его обработает. Когда клиент делает запрос, сервер должен понять, какой код запустить. В Express маршрут задаётся через `app.METHOD(PATH, HANDLER)`, например `app.get("/users/:id", ...)`. Express перебирает маршруты сверху вниз и вызывает первый подходящий. Во Flask то же самое, но через декоратор `@app.route(...)`.
 
-**3. Как получить параметр пути?**
-Express: `req.params.id`. Flask: аргумент функции (`<int:user_id>`).
+**2. Чем отличаются `req.params`, `req.query` и `req.body`?**
 
-**4. Что если не преобразовать параметр в число?**
-Строка `"42"` не равна числу `42` при `===`. `find` не найдёт. 404 вместо результата.
+`req.params` — это параметры из **пути** URL, например `/users/42` даёт `{ id: "42" }`. `req.query` — параметры **после `?`**, например `/users?age=20` даёт `{ age: "20" }`. `req.body` — это **тело запроса** (для POST/PUT/PATCH), например `{ "name": "Иван" }`. Важно: `params` и `query` всегда приходят строками, а `body` — любым типом (обычно JSON).
 
-**5. Как обработать отсутствие параметра?**
-Маршрут не сработает → 404 от wildcard. Невалидный (не число) → 400.
+**3. Как получить параметр пути в Express? Во Flask?**
 
-**6. Что такое вложенные маршруты? Пример.**
-Иерархия ресурсов: `/users/:userId/posts/:postId/comments/:commentId`.
+В Express — через `req.params.id` для маршрута `/users/:id`. Всегда получается строка, для числа нужно приводить через `Number` или `parseInt`. Во Flask параметр передаётся прямо аргументом в функцию: `@app.route("/users/<int:user_id>")` → `def get_user(user_id): ...`. Flask может сам привести к типу, если указать `<int:...>`, `<float:...>` или `<string:...>`.
 
-**7. Код, если ресурс не найден?**
-404.
+**4. Что произойдёт, если не преобразовать параметр пути в число?**
 
-**8. Код при невалидном параметре?**
-400.
+`req.params.id` придёт строкой `"42"`. При поиске через `users.find(el => el.id === id)` сравнение `1 === "42"` даст `false`, потому что `===` сравнивает без приведения типов. В итоге пользователь не найдётся, и вернётся 404, хотя он существует. Поэтому всегда нужно приводить: `Number(req.params.id)` или `parseInt(...)`.
 
-**9. Как объявить необязательный параметр пути?**
-`/users/:id?` (Express 4.x+).
+**5. Как обработать ситуацию, когда параметр пути отсутствует?**
 
-**10. Почему важен порядок маршрутов?**
-Express сверху вниз. `/users/:id` раньше `/users/stats` — перехватит `stats` как id.
+Если параметр вообще не указан в URL (`GET /users/` вместо `/users/42`), маршрут `/users/:id` не сработает — Express пойдёт искать дальше и в итоге вернёт 404 через wildcard-обработчик. Если параметр есть, но невалидный (`/users/abc`), после приведения получится `NaN`, и мы сами возвращаем 400 Bad Request через проверку `isNaN` или `Number.isInteger`.
+
+**6. Что такое вложенные маршруты? Приведите пример.**
+
+Вложенные маршруты отражают иерархию ресурсов — когда один ресурс принадлежит другому. Пример: `GET /users/:userId/posts/:postId/comments/:commentId` — это комментарий конкретного поста конкретного пользователя. При обработке нужно каскадно проверять: сначала существует ли пользователь, потом его ли это пост, потом под этим ли постом комментарий.
+
+**7. Какой код ответа возвращается, если ресурс не найден?**
+
+404 Not Found. Например, `res.status(404).json({ error: "Пользователь не найден" })`.
+
+**8. Какой код ответа возвращается при невалидном параметре?**
+
+400 Bad Request. Например, `/users/abc` — id не число, `Number("abc")` даёт `NaN`, мы возвращаем 400.
+
+**9. Как объявить необязательный параметр пути в Express?**
+
+Через знак `?` после имени: `app.get("/users/:id?", ...)`. Тогда маршрут сработает и для `/users/42`, и просто для `/users`. Поддерживается в Express 4.x+ и 5.x. Во Flask — через `@app.route("/users/", defaults={"id": None})`.
+
+**10. Как работает порядок объявления маршрутов в Express? Почему он важен?**
+
+Express проверяет маршруты **сверху вниз** и срабатывает на первом подходящем. Если объявить `/users/:id` раньше `/users/stats`, то запрос `GET /users/stats` попадёт в первый маршрут, `id` станет строкой `"stats"`, приведение даст `NaN` → 400, а не статистику. Поэтому специфичные маршруты нужно ставить **раньше** общих.
 
 </details>
 
 <details>
 <summary><b>Средний уровень (11–19)</b></summary>
 
-**11. Как получить query-параметры? Отличие от params?**
-`req.query.key` (Express), `request.args.get()` (Flask). Строки. Params — идентификация, query — фильтр/сортировка/пагинация.
+**11. Как получить query-параметры в Express/Flask? Чем они отличаются от параметров пути?**
 
-**12. Как задать значение по умолчанию для query?**
-`parseInt(req.query.page) || 1`.
+В Express — `req.query.key`, во Flask — `request.args.get("key")`. Всегда приходят строками. Отличаются от `params` назначением: `params` идентифицируют конкретный ресурс (`/users/42`), а `query` — это фильтры и настройки (`?age=20&sort=name`). `params` обычно обязательны, `query` — опциональны.
 
-**13. Как искать по подстроке?**
-`el.name.toLowerCase().includes(search.toLowerCase())`.
+**12. Как задать значение по умолчанию для query-параметра?**
 
-**14. Как сортировать по нескольким полям?**
-Whitelist полей, компаратор по типу (`localeCompare` для строк, вычитание для чисел), `desc` — инвертировать знак.
+Через `||`: `const page = parseInt(req.query.page) || 1;`. Если параметра нет или после `parseInt` получился `NaN` (пустая строка, буквы), подставится дефолт. Во Flask можно прямо в `request.args.get("page", default=1, type=int)`.
 
-**15. Пагинация с totalPages?**
-`total = result.length` до slice. `skip = (page-1)*limit`. `slice(skip, skip+limit)`. `totalPages = Math.ceil(total/limit)`.
+**13. Как реализовать поиск по подстроке через query-параметр?**
 
-**16. Как валидировать query? Коды?**
-Привести к числу, проверить диапазон/whitelist. Невалидно → 400.
+Через `filter` и `includes`:
 
-**17. Как фильтровать по нескольким полям?**
-`?filter=field:value` — по одному. Или несколько `&filter=...`, парсить каждое.
+```js
+const search = req.query.search;
+if (search) {
+  result = result.filter(el =>
+    el.name.toLowerCase().includes(search.toLowerCase())
+  );
+}
+```
 
-**18. Если параметр передан дважды (`?tag=js&tag=node`)?**
-`req.query.tag` станет **массивом** `["js","node"]`.
+`includes` ищет вхождение подстроки, а `toLowerCase` с обеих сторон даёт регистронезависимость: `?search=андр` найдёт «Андрей».
 
-**19. Как ограничить max limit?**
-`if (limit > 100) return 400`.
+**14. Как реализовать сортировку по нескольким полям?**
+
+Сначала проверить поле по **белому списку** (например, `["id", "name", "age"]`), потом выбрать компаратор по типу поля: `localeCompare` для строк, вычитание для чисел. Направление `order` — `asc` или `desc`, для `desc` инвертировать результат:
+
+```js
+result.sort((a, b) => {
+  const cmp = sort === "name"
+    ? a.name.localeCompare(b.name, "ru")
+    : a[sort] - b[sort];
+  return order === "desc" ? -cmp : cmp;
+});
+```
+
+**15. Как реализовать пагинацию с подсчётом общего количества страниц?**
+
+Сначала посчитать `total` (общее число записей **до** обрезки), потом вычислить `skip = (page - 1) * limit` и обрезать массив через `slice`. В ответе — `count`, `page`, `limit`, `totalPages = Math.ceil(total / limit)` и сам массив.
+
+**16. Как валидировать query-параметры? Какие коды ответов использовать?**
+
+Привести к числу (`parseInt`/`Number`), проверить диапазон (`page >= 1`, `limit` от 1 до 100), для строковых полей — проверить по белому списку. При любом нарушении — **400 Bad Request**.
+
+**17. Как реализовать фильтрацию по нескольким полям одновременно?**
+
+Можно несколько параметров `?filter=city:Москва&filter=age:25` (тогда `req.query.filter` станет массивом), либо один параметр со сложным значением (через запятую). Парсить каждое значение и проверять поле по белому списку.
+
+**18. Что произойдёт, если query-параметр передан несколько раз (`?tag=js&tag=node`)?**
+
+Express вернёт не строку, а **массив**: `req.query.tag = ["js", "node"]`. Это нужно учитывать в коде — либо обрабатывать явно, либо использовать первый элемент (`req.query.tag[0]`).
+
+**19. Как ограничить максимальное значение limit?**
+
+Проверкой после приведения: `if (limit > 100) return res.status(400).json(...)`. Это защита от запросов вида `?limit=999999`, которые могут вернуть слишком много данных и нагрузить сервер.
 
 </details>
 
 <details>
 <summary><b>Продвинутый уровень (20–29)</b></summary>
 
-**20. Как комбинировать params и query?**
-`GET /users/42/posts?sort=title&page=1` — оба работают одновременно.
+**20. Как комбинировать параметры пути и query-параметры в одном запросе?**
 
-**21. Вложенные маршруты с несколькими уровнями?**
-Каскадная проверка: все id → существование каждой сущности → связи (`post.userId === userId`, `comment.postId === postId`).
+Очень просто — они не мешают друг другу. Пример: `GET /users/42/posts?sort=title&page=1`. Параметр пути `42` идентифицирует пользователя, а query-параметры настраивают сортировку и пагинацию для его постов. Обработчик читает и `req.params`, и `req.query` одновременно.
 
-**22. Wildcard-маршрут, почему последним?**
-`app.use((req, res) => res.status(404)...)` — без пути. Express сверху вниз, поэтому **последним**.
+**21. Как реализовать вложенные маршруты с несколькими уровнями?**
 
-**23. Глобальный обработчик ошибок?**
-Middleware с **4 аргументами** `(err, req, res, next)`, после 404, до `listen`. `console.error` + `res.status(500).json(...)`.
+Идти по цепочке сверху вниз: сначала распарсить все id, потом проверить существование каждого ресурса, потом — связи между ними. Например, в `/users/:userId/posts/:postId/comments/:commentId` сначала проверяем пользователя, потом что пост действительно его (`post.userId === userId`), потом что комментарий под этим постом (`comment.postId === postId`). На каждом шаге — свой 404 с понятным сообщением.
 
-**24. Логирование с IP?**
-Middleware: `console.log(req.method, req.url, req.ip)` + `next()`.
+**22. Как обработать wildcard-маршрут и почему он должен быть последним?**
 
-**25. Защита от больших limit?**
-Валидация `limit <= 100`, дефолт 10, иначе 400.
+Wildcard — это `app.use((req, res) => res.status(404).json(...))`, без указания пути. Он ловит **все** запросы, которые не подошли ни под один маршрут. Ставить его нужно **последним** в файле, потому что Express проверяет маршруты сверху вниз: если wildcard будет раньше реальных маршрутов, он перехватит их все.
 
-**26. Как реализовать статистику?**
-Цикл/reduce: `count`, `sum`, `min`, `max`, `average`. Защита от `count === 0`.
+**23. Как реализовать глобальный обработчик ошибок?**
 
-**27. Как структурировать проект при росте?**
-Роутеры (`express.Router()`), контроллеры, модели, middleware — по отдельным файлам.
+Это middleware с **четырьмя** аргументами: `(err, req, res, next)`. Express отличает его от обычных middleware именно по числу аргументов. Размещать после всех маршрутов и после 404, но до `app.listen`. Внутри — `console.error(err)` для лога и `res.status(500).json({ error: "..." })` для клиента. Стек клиенту не отдаём.
 
-**28. OpenAPI/Swagger для документации?**
-YAML/JSON-описание эндпоинтов, параметров, ответов. Swagger UI рендерит из файла.
+**24. Как логировать все запросы с IP-адресом клиента?**
+
+Через middleware: `app.use((req, res, next) => { console.log(req.method, req.url, req.ip); next(); })`. `req.ip` в Express даёт IP клиента (на локалке это `::1` или `127.0.0.1`). Не забыть `next()` — иначе запрос зависнет.
+
+**25. Как защитить API от слишком больших значений limit?**
+
+Валидацией: после приведения к числу проверяем `if (limit > 100) return 400`, иначе клиент мог бы запросить `?limit=999999` и получить всю базу одним махом. Также можно ограничить размер тела запроса через `express.json({ limit: "10kb" })`.
+
+**26. Как реализовать статистику по коллекции?**
+
+Пройти по массиву (циклом или через `reduce`) и собрать `count`, сумму, минимум и максимум. Среднее — сумма делить на count. Обязательно защита от деления на ноль: если count = 0, вернуть `average: null`. Минимум/максимум удобно искать через `Math.min(...ages)` и `Math.max(...ages)`.
+
+**27. Как организовать структуру проекта при росте числа маршрутов?**
+
+Разнести по файлам: роутеры (`express.Router()`), контроллеры (логика обработчиков), модели (данные/схемы), middleware (общие функции), утилиты (хелперы типа `parsePositiveInt`), конфиг. В `app.js` остаётся только сборка: подключение роутеров и middleware.
+
+**28. Как документировать параметры маршрутов (OpenAPI/Swagger)?**
+
+Через YAML или JSON-файл со схемой API: описываются эндпоинты, параметры, тела запросов, коды ответов и примеры. Из этого файла Swagger UI автоматически генерирует интерактивную страницу с документацией. В Express подключается через пакеты `swagger-ui-express` и `swagger-jsdoc`.
 
 **29. Как тестировать маршруты с параметрами в Postman?**
-Вставлять значения в URL, вкладка Params для query, коллекции + Environments для `{{baseUrl}}`.
+
+Вставлять значения прямо в URL (`/users/42`), для query-параметров — вкладка **Params**, для тела — вкладка **Body** с типом JSON. Для удобства создавать **коллекции**, сохранять запросы, использовать **Environments** с переменной `{{baseUrl}}` — тогда URL не нужно вводить целиком каждый раз.
 
 </details>
 
 ## Вывод
 
-В ходе лабораторной работы реализованы базовый, средний и продвинутый уровни API на Node.js + Express: CRUD-подобные эндпоинты с параметрами пути, query-параметры (поиск, фильтрация, сортировка, пагинация), вложенные маршруты с несколькими параметрами, wildcard-404, логирование с IP, статистика и глобальный обработчик ошибок. Освоены `req.params` vs `req.query`, `find` vs `filter`, `parseInt` vs `Number`, каскадная валидация связей. Главные трудности — порядок объявления маршрутов (`/users/stats` до `/users/:id`), парсинг `filter=field:value` и регистронезависимость при фильтрации.
+В ходе лабораторной работы реализованы базовый, средний и продвинутый уровни API на Node.js + Express: CRUD-подобные эндпоинты с параметрами пути, query-параметры (поиск, фильтрация, сортировка, пагинация), вложенные маршруты с несколькими параметрами, wildcard-404, логирование с IP, статистика и глобальный обработчик ошибок. Освоены `req.params` и `req.query`, каскадная валидация связей.
 
 ---
 
 ## Список использованных источников
 
-1. Express — Routing. URL: https://expressjs.com/en/guide/routing.html
-2. Express — Request. URL: https://expressjs.com/en/4x/api.html#req
-3. MDN Web Docs — HTTP методы. URL: https://developer.mozilla.org/ru/docs/Web/HTTP/Methods
-4. MDN Web Docs — URL. URL: https://developer.mozilla.org/ru/docs/Learn/Common_questions/What_is_a_URL
-5. REST API Tutorial. URL: https://restfulapi.net/
-6. REST Client for VS Code. URL: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+1. Express – Routing. URL: https://expressjs.com/en/guide/routing.html
+2. Express – Request. URL: https://expressjs.com/en/4x/api.html#req
+3. MDN Web Docs – HTTP методы. URL: https://developer.mozilla.org/ru/docs/Web/HTTP/Methods
+4. MDN Web Docs – URL. URL: https://developer.mozilla.org/ru/docs/Learn/Common_questions/What_is_a_URL
+5. REST Client for VS Code. URL: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
