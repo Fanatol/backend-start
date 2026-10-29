@@ -1,0 +1,197 @@
+@baseUrl = http://localhost:3000
+
+### ==================== READ ====================
+
+### 1. GET All Users — все пользователи
+GET {{baseUrl}}/users
+
+### 2. GET Search User — поиск по имени
+GET {{baseUrl}}/users?search=Андрей
+
+### 3. GET Search No Results — поиск без результата
+GET {{baseUrl}}/users?search=xyz
+
+### 4. GET Sort Age Desc — сортировка по возрасту (убывание)
+GET {{baseUrl}}/users?sort=age&order=desc
+
+### 5. GET Search and Sort — поиск + сортировка
+GET {{baseUrl}}/users?search=р&sort=age&order=desc
+
+### 6. GET Pagination — пагинация
+GET {{baseUrl}}/users?page=2&limit=2
+
+### 7. GET All Combined — поиск + сортировка + пагинация
+GET {{baseUrl}}/users?search=р&sort=age&order=desc&page=1&limit=1
+
+### 8. GET Stats — статистика по возрасту
+GET {{baseUrl}}/users/stats
+
+### 9. GET User by ID — один пользователь
+GET {{baseUrl}}/users/1
+
+### 10. GET Related by City — пользователи того же города
+GET {{baseUrl}}/users/1/related
+
+### ==================== CREATE ====================
+
+### 11. POST Create User — создание
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Пётр",
+  "email": "petr@mail.ru",
+  "age": 28,
+  "city": "Тверь"
+}
+
+### 12. POST Create User (без age и city) — дефолты
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Иван",
+  "email": "ivan@mail.ru"
+}
+
+### 13. POST Bulk Create — массовое создание
+POST {{baseUrl}}/users/bulk
+Content-Type: application/json
+
+[
+  { "name": "Иван", "email": "ivan@mail.ru", "age": 28, "city": "Тверь" },
+  { "name": "Ольга", "email": "olga@mail.ru", "age": 35, "city": "Казань" }
+]
+
+### ==================== UPDATE ====================
+
+### 14. PUT Update User — полное обновление
+PUT {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "name": "Андрей Обновлённый",
+  "email": "andrey.new@mail.ru",
+  "age": 43,
+  "city": "Санкт-Петербург"
+}
+
+### 15. PATCH Update Age — частичное обновление (только age)
+PATCH {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "age": 43
+}
+
+### 16. PATCH Update Name and City — частичное (два поля)
+PATCH {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "name": "Новый",
+  "city": "Тверь"
+}
+
+### ==================== DELETE ====================
+
+### 17. DELETE Delete User — удаление одного
+DELETE {{baseUrl}}/users/3
+
+### 18. DELETE All Users — удалить всех
+DELETE {{baseUrl}}/users
+
+### ==================== ERRORS ====================
+
+### 19. GET Nonexistent User — 404
+GET {{baseUrl}}/users/999
+
+### 20. GET Invalid ID — 404 (не 400! parsePositiveInt не используется)
+GET {{baseUrl}}/users/abc
+
+### 21. POST Invalid Data — 400 (пустое name)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "petr@mail.ru",
+  "age": 28,
+  "city": "Тверь"
+}
+
+### 22. POST Invalid Age — 400 (age строкой)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Тест",
+  "email": "test@mail.ru",
+  "age": "тридцать",
+  "city": "Москва"
+}
+
+### 23. POST Invalid Age Range — 400 (age 200)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Тест",
+  "email": "test@mail.ru",
+  "age": 200,
+  "city": "Москва"
+}
+
+### 24. POST Invalid Email — 400 (без @)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Тест",
+  "email": "testmail.ru",
+  "age": 25,
+  "city": "Москва"
+}
+
+### 25. PUT Nonexistent User — 404
+PUT {{baseUrl}}/users/999
+Content-Type: application/json
+
+{
+  "name": "Андрей",
+  "email": "a@mail.ru",
+  "age": 42,
+  "city": "Москва"
+}
+
+### 26. PATCH Invalid Age — 400
+PATCH {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "age": "abc"
+}
+
+### 27. DELETE Nonexistent User — 404
+DELETE {{baseUrl}}/users/999
+
+### 28. POST Bulk Invalid — 400
+POST {{baseUrl}}/users/bulk
+Content-Type: application/json
+
+[
+  { "name": "Иван", "email": "ivan@mail.ru", "age": 28, "city": "Тверь" },
+  { "name": "Ольга", "email": "olga@mail.ru", "age": "тридцать пять", "city": "Казань" }
+]
+
+### 29. GET Invalid Sort — 400
+GET {{baseUrl}}/users?sort=email
+
+### 30. GET Invalid Limit — 400
+GET {{baseUrl}}/users?limit=200
+
+### 31. GET Invalid Page — 400
+GET {{baseUrl}}/users?page=0
+
+### 32. GET 404 — несуществующий маршрут
+GET {{baseUrl}}/anything-else
